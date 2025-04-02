@@ -26,7 +26,7 @@ def plotter(naive_file, strassen_file, title="Runtime Comparison"):
     plt.tight_layout()
     plt.show()
 
-    # Crossover point
+    # Crossover point (checks small to large size)
     for size, naive_time, strassen_time in zip(naive_sizes, naive_times, strassen_times):
         if strassen_time < naive_time:
             print(f"Crossover point: n = {size}")

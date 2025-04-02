@@ -98,7 +98,7 @@ def s_tester(filename, type, dimension, crossover):
     with open(filename, "w") as f:
         for i in range(1, dimension + 1):
             total_time = 0
-            for _ in range(5):  # 5 trials
+            for _ in range(10):  # 10 trials
                 A = [[random.choice(type) for _ in range(i)] for _ in range(i)]
                 B = [[random.choice(type) for _ in range(i)] for _ in range(i)]
 
@@ -108,7 +108,7 @@ def s_tester(filename, type, dimension, crossover):
 
                 total_time += end - start
 
-            avg_time = total_time / 5
+            avg_time = total_time / 10
             f.write(f"{i} {avg_time}\n")
     
 def n_tester(filename, type, dimension):
@@ -186,15 +186,27 @@ def main():
         n_tester("naive_t3.txt", t3, 100)
         n_tester("naive_t4.txt", t4, 100)
 
-if __name__ == "__main__":
-        # Strassens for n up to 100
-        s_tester("strassen_t1.txt", t1, 150, 1)
-        s_tester("strassen_t2.txt", t2, 150, 1)
-        s_tester("strassen_t3.txt", t3, 150, 1)
-        s_tester("strassen_t4.txt", t4, 150, 1)
+def crossover_tester():
+    for i in range(100):
+        total_1 = 0
+        total_2 = 0
+        A = [[random.choice(t4) for _ in range(200)] for _ in range(200)]
+        B = [[random.choice(t4) for _ in range(200)] for _ in range(200)]
 
-        # Naive for n up to 100
-        n_tester("naive_t1.txt", t1, 150)
-        n_tester("naive_t2.txt", t2, 150)
-        n_tester("naive_t3.txt", t3, 150)
-        n_tester("naive_t4.txt", t4, 150)
+        start = time.time()
+        strassen_multiply(A, B, 50)
+        end = time.time() 
+        total_1 += end - start
+        start = time.time()
+        strassen_multiply(A, B, 1)
+        end = time.time()
+        total_2 += end - start
+    
+    average_1 = total_1 / 100
+    average_2 = total_2 / 100
+
+    print(f"Crossover 50: " + str(average_1))
+    print(f"Crossover 100: " + str(average_2))
+
+if __name__ == "__main__":
+    main()
